@@ -92,7 +92,7 @@
     .tab-link { color: #8e8e93; font-size: 16px; font-weight: 600; padding: 8px 20px; border-radius: 20px; cursor: pointer; }
     .tab-link.active { background: var(--card); color: white; }
 
-    /* iOS Bottom Sheet Modal (Flitser Details) */
+    /* Bottom Sheet */
     .bottom-sheet {
       position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%);
       width: calc(100% - 30px); max-width: 420px; background: var(--card);
@@ -123,14 +123,14 @@
     .vote-yes { background: var(--primary); }
     .vote-no { background: var(--danger); }
 
-    /* Popups / Views / Panels */
+    /* Modals & Views */
     .view-panel { position: absolute; top: 0; left: 0; width: 100%; height: calc(100vh - 75px); background: var(--bg); z-index: 1500; display: none; padding: 20px; overflow-y: auto; }
     
     .modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 3000; display: none; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(10px); }
     .modal-content { background: var(--card); border-radius: 24px; padding: 25px; width: 100%; max-width: 400px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
     
     input.form-input { width: 100%; background: var(--card-sub); border: 1px solid #3a3a3c; color: white; padding: 14px; border-radius: 12px; font-size: 16px; margin-bottom: 10px; outline: none; }
-    textarea { width: 100%; height: 160px; background: #000; color: #32d74b; font-family: monospace; padding: 12px; border: 1px solid #3a3a3c; border-radius: 12px; margin: 10px 0; font-size: 12px; resize: none; }
+    textarea { width: 100%; height: 120px; background: #000; color: #32d74b; font-family: monospace; padding: 12px; border: 1px solid #3a3a3c; border-radius: 12px; margin: 10px 0; font-size: 12px; resize: none; }
     
     .btn-full { background: var(--primary); color: white; border: none; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 14px; width: 100%; cursor: pointer; margin-bottom: 8px; }
     .btn-secondary { background: var(--card-sub); color: white; }
@@ -143,7 +143,7 @@
     #admin-banner { position: absolute; top: 75px; left: 50%; transform: translateX(-50%); background: var(--danger); color: white; padding: 8px 16px; border-radius: 20px; font-weight: bold; z-index: 2000; display: none; box-shadow: 0 4px 10px rgba(255,59,48,0.5); }
     .list-item { background: var(--card); border-radius: 16px; padding: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(255,255,255,0.05); }
 
-    /* GPS Prompt Modal Styling */
+    /* GPS Prompt Modal */
     .gps-icon-circle {
       width: 60px; height: 60px; background: rgba(0, 122, 255, 0.15); border-radius: 50%;
       display: flex; align-items: center; justify-content: center; margin: 0 auto 15px auto;
@@ -179,7 +179,7 @@
     <button class="btn-melden" onclick="startMeldWorkflow()">Melden</button>
   </div>
 
-  <!-- Bottom Sheet (Screenshot Replica) -->
+  <!-- Bottom Sheet -->
   <div id="bottom-sheet" class="bottom-sheet">
     <div class="sheet-header">
       <button class="audio-btn-sheet" onclick="playCurrentAlertSound()">
@@ -224,7 +224,7 @@
 
   <!-- MODALS -->
 
-  <!-- 0. GPS PERMISSION PROMPT (Nieuw!) -->
+  <!-- GPS Permission Prompt -->
   <div id="modal-gps-prompt" class="modal" style="display:flex;">
     <div class="modal-content">
       <div class="gps-icon-circle">
@@ -238,7 +238,7 @@
     </div>
   </div>
 
-  <!-- 1. Type Selector -->
+  <!-- Type Selector -->
   <div id="modal-type" class="modal">
     <div class="modal-content">
       <h2>⚠️ Kies Meldingstype</h2>
@@ -252,7 +252,7 @@
     </div>
   </div>
 
-  <!-- 2. Speed Selector -->
+  <!-- Speed Selector -->
   <div id="modal-speed" class="modal">
     <div class="modal-content">
       <h2>⚡ Maximum Snelheid</h2>
@@ -261,7 +261,7 @@
     </div>
   </div>
 
-  <!-- 3. Admin Hub Modal -->
+  <!-- Admin Hub Modal -->
   <div id="modal-admin-hub" class="modal">
     <div class="modal-content">
       <h2>⚙️ Instellingen & Admin</h2>
@@ -272,7 +272,7 @@
       <div id="admin-tools-section" style="display: none;">
         <p style="color:#32d74b; margin-bottom: 15px; font-weight:bold;">✅ Admin Modus Actief</p>
         <button class="btn-full" onclick="toggleAdminClickMode()">📍 Kaart Klik-Modus (Aan/Uit)</button>
-        <button class="btn-full" onclick="openImportExport()">📂 Data.lua Exporteren / Importeren</button>
+        <button class="btn-full" onclick="openImportExport()">📂 Data Importeren / Ophalen</button>
         <button class="btn-full btn-danger" onclick="clearAllData()">🗑️ Wis Alle Data</button>
         <button class="btn-full btn-secondary" onclick="logoutAdmin()">Uitloggen</button>
       </div>
@@ -280,20 +280,37 @@
     </div>
   </div>
 
-  <!-- 4. Data.lua Import/Export Modal -->
+  <!-- Data Manager Modal -->
   <div id="modal-data" class="modal">
     <div class="modal-content">
-      <h2>📂 Data.lua Code</h2>
-      <textarea id="lua-data-box" placeholder="Plak hier je Lua code..."></textarea>
-      <button class="btn-full" onclick="importLuaData()">📥 Importeer Lua Data</button>
-      <button class="btn-full" style="background:#ff9500;" onclick="exportLuaData()">📤 Genereer Lua Code</button>
+      <h2>📂 Data Beheren</h2>
+
+      <!-- Automatische knop -->
+      <button class="btn-full" style="background:#30d158; color:black; font-weight:bold; margin-bottom:15px;" onclick="fetchNLFlitspalen()">
+        🔄 Haal NL Flitspalen Automatisch Op
+      </button>
+      
+      <!-- Direct een bestand selecteren -->
+      <div style="background: var(--card-sub); border: 2px dashed #007aff; border-radius: 16px; padding: 15px; margin-bottom: 15px;">
+        <p style="font-size:13px; color:#aaa; margin-bottom:8px;">Of kies een bestand van je telefoon:</p>
+        <input type="file" id="lua-file-input" accept=".lua,.txt,.json" style="display:none;" onchange="handleFileSelect(event)">
+        <button class="btn-full" style="margin-bottom:0;" onclick="document.getElementById('lua-file-input').click()">📁 Kies Bestand uit Telefoon</button>
+      </div>
+
+      <details style="text-align:left; color:#8e8e93; font-size:12px; margin-bottom:15px;">
+        <summary style="cursor:pointer; color:#007aff; font-size:14px; text-align:center;">Handmatige Lua Code ▼</summary>
+        <textarea id="lua-data-box" placeholder="Plak hier je Lua code..."></textarea>
+        <button class="btn-full" onclick="importLuaData()">📥 Importeer Tekst</button>
+        <button class="btn-full" style="background:#ff9500;" onclick="exportLuaData()">📤 Genereer Lua Code</button>
+      </details>
+
       <button class="btn-full btn-secondary" onclick="closeModals()">Sluiten</button>
     </div>
   </div>
 
   <script>
     let map, userMarker, routingControl;
-    let userLat = 45.807718, userLng = 13.441812; // Default (Fallback)
+    let userLat = 52.370216, userLng = 4.895168; // Default (Amsterdam)
     let audioEnabled = true;
     let isAdmin = false;
     let adminClickMode = false;
@@ -302,17 +319,7 @@
     let selectedCamera = null;
     let warnedFlitsers = new Set();
 
-    let cameraData = JSON.parse(localStorage.getItem('ultimateRadarData')) || [
-      {
-        id: 1,
-        type: "Flitspaal",
-        color: "#007aff",
-        location: "San Canzian d'Isonzo",
-        lat: 45.807718,
-        lng: 13.441812,
-        speed: 50
-      }
-    ];
+    let cameraData = JSON.parse(localStorage.getItem('ultimateRadarData')) || [];
 
     // Vul Snelheidknoppen
     const speeds = [10,20,30,40,50,60,70,80,90,100,110,120,130,'Geen'];
@@ -326,14 +333,14 @@
     });
 
     function initMap() {
-      map = L.map('map', { zoomControl: false }).setView([userLat, userLng], 16);
+      map = L.map('map', { zoomControl: false }).setView([userLat, userLng], 14);
 
       L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
         attribution: '&copy; OpenMapTiles &copy; OpenStreetMap',
         maxZoom: 20
       }).addTo(map);
 
-      // Custom User Location Marker
+      // Custom User Marker
       const userIcon = L.divIcon({
         className: 'custom-user-icon',
         html: `<div class="user-marker"><svg viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg></div>`,
@@ -342,7 +349,7 @@
       });
       userMarker = L.marker([userLat, userLng], { icon: userIcon }).addTo(map);
 
-      // Map Click Handler for Admin
+      // Map Click Handler voor Admin
       map.on('click', function(e) {
         if (isAdmin && adminClickMode) {
           tempLat = e.latlng.lat;
@@ -359,14 +366,12 @@
       if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition(
           (pos) => {
-            // Gelukt!
             document.getElementById('modal-gps-prompt').style.display = 'none';
             userLat = pos.coords.latitude;
             userLng = pos.coords.longitude;
             map.setView([userLat, userLng], 16);
             userMarker.setLatLng([userLat, userLng]);
 
-            // Start continue tracking
             navigator.geolocation.watchPosition(handleGPS, handleGPSError, { 
               enableHighAccuracy: true,
               maximumAge: 0,
@@ -376,7 +381,7 @@
             playAudio("GPS verbonden. DriveRadar is actief.");
           },
           (err) => {
-            alert("⚠️ Kon geen GPS-locatie ophalen. Controleer of je locatie/GPS hebt aanstaan in de instellingen van je telefoon.");
+            alert("⚠️ Kon geen GPS-locatie ophalen. Zorg dat je locatie/GPS aan staat op je telefoon.");
           },
           { enableHighAccuracy: true }
         );
@@ -426,7 +431,7 @@
         item.innerHTML = `
           <div>
             <strong>${cam.type}</strong><br>
-            <small style="color:#8e8e93;">${cam.location || 'Geplaatste paal'}</small>
+            <small style="color:#8e8e93;">${cam.location || 'Flitspaal NL'}</small>
           </div>
           <div class="speed-badge">${cam.speed}</div>
         `;
@@ -450,6 +455,73 @@
       });
     }
 
+    // Automatisch alle Nederlandse flitspalen ophalen via API
+    function fetchNLFlitspalen() {
+      alert("⏳ Bezig met ophalen van Nederlandse flitspalen uit de database... Dit kan een paar seconden duren.");
+
+      const query = `
+        [out:json][timeout:25];
+        node["highway"="speed_camera"](50.75,3.35,53.55,7.25);
+        out body;
+      `;
+
+      const url = "https://overpass-api.de/api/interpreter?data=" + encodeURIComponent(query);
+
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          if (!data.elements || data.elements.length === 0) {
+            alert("❌ Geen data kunnen ophalen. Probeer later opnieuw.");
+            return;
+          }
+
+          let geladenAantal = 0;
+          
+          data.elements.forEach((node, index) => {
+            let maxSpeed = node.tags && node.tags.maxspeed ? parseInt(node.tags.maxspeed) : 50;
+            let camType = "Vaste Paal";
+
+            if (node.tags && node.tags.traffic_signals == "yes") {
+              camType = "Roodlicht + Snelheid";
+            }
+
+            cameraData.push({
+              id: node.id || (Date.now() + index),
+              type: camType,
+              color: "#007aff",
+              location: "Nederlandse Flitspaal",
+              lat: node.lat,
+              lng: node.lon,
+              speed: maxSpeed
+            });
+            geladenAantal++;
+          });
+
+          saveData();
+          renderCameras();
+
+          alert(`✅ Succes! ${geladenAantal} Nederlandse flitspalen automatisch toegevoegd aan jouw app!`);
+          closeModals();
+        })
+        .catch(err => {
+          console.error(err);
+          alert("❌ Fout bij het ophalen. Controleer je internetverbinding.");
+        });
+    }
+
+    // Bestand inladen van telefoon
+    function handleFileSelect(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('lua-data-box').value = e.target.result;
+        importLuaData();
+      };
+      reader.readAsText(file);
+    }
+
     function startMeldWorkflow() {
       tempLat = null; tempLng = null;
       document.getElementById('modal-type').style.display = 'flex';
@@ -468,7 +540,7 @@
         id: Date.now(),
         type: selectedType,
         color: selectedColor,
-        location: tempLat ? "Admin Geplaatste Paal" : "Eigen Melding",
+        location: tempLat ? "Handmatig Geplaatst" : "Eigen Melding",
         lat: tempLat ? tempLat : userLat,
         lng: tempLng ? tempLng : userLng,
         speed: speed
