@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>DriveRadar Pro Ultimate</title>
+  <title>DriveRadar Ultimate - Flitsmeister Style</title>
 
-  <!-- Leaflet CSS & JS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
 
@@ -15,10 +14,11 @@
       --danger: #ff3b30;
       --success: #34c759;
       --warning: #ff9500;
-      --bg: #000000;
+      --bg: #090a0c;
       --card: #1c1c1e;
       --card-sub: #2c2c2e;
       --text: #ffffff;
+      --border: rgba(255,255,255,0.1);
     }
 
     body.light-mode {
@@ -26,97 +26,102 @@
       --card: #ffffff;
       --card-sub: #e5e5ea;
       --text: #000000;
+      --border: rgba(0,0,0,0.1);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
     body { background: var(--bg); color: var(--text); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
 
-    #map { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; background: #090a0c; }
-    
-    /* Markers */
+    #map { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; background: #000; }
+
+    /* Custom Markers */
     .user-marker {
-      background: white; border-radius: 50%; width: 36px; height: 36px;
+      background: white; border-radius: 50%; width: 38px; height: 38px;
       display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5); border: 2px solid var(--primary);
     }
-    .user-marker svg { width: 18px; height: 18px; fill: var(--primary); transform: rotate(-45deg); }
+    .user-marker svg { width: 20px; height: 20px; fill: var(--primary); transform: rotate(-45deg); }
 
     .camera-marker {
       border: 2px solid #ffffff; border-radius: 50%;
-      width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.5); cursor: pointer; position: relative;
+      width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.6); cursor: pointer; position: relative;
     }
-    .camera-marker svg { width: 16px; height: 16px; fill: white; }
+    .camera-marker svg { width: 18px; height: 18px; fill: white; }
     .badge-votes {
       position: absolute; top: -6px; right: -6px; background: var(--success); color: white;
-      font-size: 10px; font-weight: bold; border-radius: 10px; padding: 2px 5px; border: 1px solid white;
+      font-size: 10px; font-weight: bold; border-radius: 10px; padding: 1px 4px; border: 1px solid white;
     }
 
-    /* Floating Controls */
-    .floating-controls { position: absolute; bottom: 180px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 12px; }
+    /* Floating Side Controls */
+    .floating-controls { position: absolute; top: 80px; right: 15px; z-index: 1000; display: flex; flex-direction: column; gap: 10px; }
     .float-btn {
-      width: 48px; height: 48px; background: rgba(30, 30, 32, 0.9);
+      width: 46px; height: 46px; background: rgba(28, 28, 30, 0.85);
       border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); cursor: pointer; font-size: 18px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.5); backdrop-filter: blur(10px); border: 1px solid var(--border); cursor: pointer; font-size: 20px;
     }
 
     /* Search Bar Overlay */
     .search-box {
       position: absolute; top: 15px; left: 15px; right: 15px; z-index: 1000;
-      display: flex; gap: 10px; background: rgba(28, 28, 30, 0.85); backdrop-filter: blur(15px);
-      padding: 6px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1);
+      display: flex; gap: 8px; background: rgba(28, 28, 30, 0.85); backdrop-filter: blur(15px);
+      padding: 6px 12px; border-radius: 30px; border: 1px solid var(--border);
     }
-    .search-input { flex: 1; background: transparent; border: none; padding: 10px 15px; color: white; outline: none; font-size: 15px; }
-    .search-btn { background: var(--primary); color: white; border: none; padding: 0 20px; border-radius: 20px; font-weight: bold; cursor: pointer; }
+    .search-input { flex: 1; background: transparent; border: none; color: white; outline: none; font-size: 15px; }
+    .search-btn { background: var(--primary); color: white; border: none; padding: 8px 18px; border-radius: 20px; font-weight: bold; cursor: pointer; }
 
-    /* Dashboard Panel (Bottom) */
+    /* Bottom Dashboard Panel (Flitsmeister Style) */
     .dashboard-panel {
       position: absolute; bottom: 85px; left: 15px; right: 15px; z-index: 1000;
-      background: var(--card); border-radius: 35px; padding: 12px 20px;
+      background: var(--card); border-radius: 32px; padding: 12px 20px;
       display: flex; align-items: center; justify-content: space-between;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8); border: 1px solid var(--border);
     }
     
     .speed-container { display: flex; align-items: center; gap: 15px; }
     
     .speed-circle {
-      width: 60px; height: 60px; background: var(--card-sub); border-radius: 50%;
+      width: 65px; height: 65px; background: var(--card-sub); border-radius: 50%;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      font-size: 22px; font-weight: 800; color: var(--text); box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.4); transition: 0.2s;
     }
-    .speed-circle.speeding { background: var(--danger) !important; color: white !important; animation: pulse 0.8s infinite alternate; }
+    .speed-number { font-size: 26px; font-weight: 900; color: var(--text); line-height: 1; }
+    .speed-unit { font-size: 9px; color: #8e8e93; font-weight: bold; margin-top: 2px; }
+    
+    .speed-circle.speeding { background: var(--danger) !important; animation: pulse 0.8s infinite alternate; }
+    .speed-circle.speeding .speed-number { color: white !important; }
     @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.08); } }
 
     .speed-limit-badge {
-      width: 50px; height: 50px; border-radius: 50%; background: #ffffff;
-      border: 4px solid var(--danger); color: #000; font-size: 20px; font-weight: 900;
+      width: 52px; height: 52px; border-radius: 50%; background: #ffffff;
+      border: 4px solid var(--danger); color: #000; font-size: 22px; font-weight: 900;
       display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     }
     
     .btn-melden {
-      background: var(--primary); color: white; border: none; padding: 14px 28px;
-      border-radius: 22px; font-size: 16px; font-weight: 700; cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0, 122, 255, 0.4); transition: 0.2s;
+      background: var(--danger); color: white; border: none; padding: 14px 26px;
+      border-radius: 22px; font-size: 16px; font-weight: 800; cursor: pointer;
+      box-shadow: 0 4px 15px rgba(255, 59, 48, 0.4); transition: 0.2s;
     }
-    .btn-melden:active { transform: scale(0.96); }
+    .btn-melden:active { transform: scale(0.95); }
 
     /* Bottom Navigation Tab Bar */
     .tab-bar {
       position: absolute; bottom: 0; left: 0; width: 100%; height: 75px;
       background: var(--bg); z-index: 1000; display: flex; align-items: center; justify-content: space-between;
-      padding: 0 25px 15px 25px; border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 0 25px 15px 25px; border-top: 1px solid var(--border);
     }
     .tab-icon { color: #8e8e93; font-size: 22px; cursor: pointer; }
     .tab-links { display: flex; gap: 10px; }
     .tab-link { color: #8e8e93; font-size: 15px; font-weight: 600; padding: 8px 18px; border-radius: 20px; cursor: pointer; }
     .tab-link.active { background: var(--card); color: var(--text); }
 
-    /* Bottom Sheet */
+    /* Bottom Sheet Details & Voting */
     .bottom-sheet {
       position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%);
       width: calc(100% - 30px); max-width: 420px; background: var(--card);
       border-radius: 32px; padding: 20px; z-index: 2000;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.9); border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.9); border: 1px solid var(--border);
       display: none; flex-direction: column; gap: 12px; animation: slideUp 0.3s ease-out;
     }
     @keyframes slideUp { from { transform: translate(-50%, 100%); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
@@ -132,16 +137,16 @@
     .status-unverified { background: rgba(255, 149, 0, 0.2); color: var(--warning); }
 
     .voting-card { background: var(--card-sub); border-radius: 20px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; }
-    .vote-btn { width: 60px; height: 38px; border-radius: 19px; border: none; font-size: 16px; font-weight: bold; cursor: pointer; color: white; display: flex; align-items: center; justify-content: center; gap: 4px; }
+    .vote-btn { width: 65px; height: 38px; border-radius: 19px; border: none; font-size: 15px; font-weight: bold; cursor: pointer; color: white; display: flex; align-items: center; justify-content: center; gap: 4px; }
     .vote-yes { background: var(--success); }
     .vote-no { background: var(--danger); }
 
     /* Modals & Views */
     .view-panel { position: absolute; top: 0; left: 0; width: 100%; height: calc(100vh - 75px); background: var(--bg); z-index: 1500; display: none; padding: 20px; overflow-y: auto; }
     .modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 3000; display: none; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(10px); }
-    .modal-content { background: var(--card); border-radius: 24px; padding: 22px; width: 100%; max-width: 400px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
+    .modal-content { background: var(--card); border-radius: 24px; padding: 22px; width: 100%; max-width: 400px; text-align: center; border: 1px solid var(--border); }
     
-    input.form-input, select.form-input { width: 100%; background: var(--card-sub); border: 1px solid #3a3a3c; color: var(--text); padding: 12px; border-radius: 12px; font-size: 15px; margin-bottom: 10px; outline: none; }
+    input.form-input, select.form-input { width: 100%; background: var(--card-sub); border: 1px solid var(--border); color: var(--text); padding: 12px; border-radius: 12px; font-size: 15px; margin-bottom: 10px; outline: none; }
     
     .btn-full { background: var(--primary); color: white; border: none; padding: 12px; font-size: 15px; font-weight: bold; border-radius: 12px; width: 100%; cursor: pointer; margin-bottom: 8px; }
     .btn-secondary { background: var(--card-sub); color: var(--text); }
@@ -149,10 +154,10 @@
 
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0; }
     .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 12px 0; max-height: 180px; overflow-y: auto; }
-    .select-card { background: var(--card-sub); border: 1px solid rgba(255,255,255,0.08); color: var(--text); padding: 12px; border-radius: 12px; font-weight: bold; font-size: 13px; text-align: center; cursor: pointer; }
+    .select-card { background: var(--card-sub); border: 1px solid var(--border); color: var(--text); padding: 12px; border-radius: 12px; font-weight: bold; font-size: 13px; text-align: center; cursor: pointer; }
 
     #admin-banner { position: absolute; top: 75px; left: 50%; transform: translateX(-50%); background: var(--warning); color: black; padding: 8px 16px; border-radius: 20px; font-weight: bold; z-index: 2000; display: none; box-shadow: 0 4px 10px rgba(0,0,0,0.5); font-size: 13px; text-align: center; }
-    .list-item { background: var(--card); border-radius: 16px; padding: 14px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(255,255,255,0.05); }
+    .list-item { background: var(--card); border-radius: 16px; padding: 14px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border); }
 
     .gps-icon-circle { width: 60px; height: 60px; background: rgba(0, 122, 255, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px auto; }
     .gps-icon-circle svg { width: 32px; height: 32px; fill: var(--primary); }
@@ -160,40 +165,34 @@
 </head>
 <body>
 
-  <!-- Map -->
   <div id="map"></div>
   
-  <!-- Search Bar -->
-  <div class="search-box" id="searchbar">
-    <input type="text" id="destination" class="search-input" placeholder="Navigeer naar bestemming...">
+  <div class="search-box">
+    <input type="text" id="destination" class="search-input" placeholder="Waar wil je naartoe navigeren?">
     <button class="search-btn" onclick="calculateRoute()">Rijd</button>
   </div>
 
-  <!-- Admin Active Banner -->
   <div id="admin-banner">🛠️ Admin Modus Actief</div>
 
-  <!-- Floating Controls -->
   <div class="floating-controls">
     <div class="float-btn" id="theme-btn" onclick="toggleTheme()">🌙</div>
     <div class="float-btn" id="audio-toggle-btn" onclick="toggleAudio()">🔊</div>
   </div>
 
-  <!-- Dashboard Panel -->
   <div class="dashboard-panel">
     <div class="speed-container">
       <div class="speed-circle" id="speed-display-box">
-        <span id="speed-display">0</span>
-        <span style="font-size:9px; color:#8e8e93; font-weight:normal;">KM/U</span>
+        <span class="speed-number" id="speed-display">0</span>
+        <span class="speed-unit">KM/U</span>
       </div>
       <div>
-        <div style="font-size:11px; color:#8e8e93; margin-bottom:2px; font-weight:bold;">MAX SPEED</div>
+        <div style="font-size:10px; color:#8e8e93; margin-bottom:2px; font-weight:800; letter-spacing:0.5px;">MAX LIMIT</div>
         <div class="speed-limit-badge" id="current-limit-display">50</div>
       </div>
     </div>
     <button class="btn-melden" onclick="startMeldWorkflow()">+ Melden</button>
   </div>
 
-  <!-- Bottom Sheet (Details & Voting) -->
   <div id="bottom-sheet" class="bottom-sheet">
     <div class="sheet-header">
       <div class="sheet-title" id="sheet-type">Flitspaal</div>
@@ -204,25 +203,25 @@
       <div class="info-location" id="sheet-location">Locatie onbekend</div>
       <div id="verification-badge" class="verification-status status-unverified">⚠️ Nog niet geverifieerd</div>
       <div style="display:flex; justify-content:space-between; align-items:center;">
-        <span style="font-size:14px;">Flitst bij:</span>
-        <div class="speed-limit-badge" style="width:40px; height:40px; font-size:16px;" id="sheet-speed">50</div>
+        <span style="font-size:14px; font-weight:600;">Flitst vanaf:</span>
+        <div class="speed-limit-badge" style="width:42px; height:42px; font-size:16px;" id="sheet-speed">50</div>
       </div>
     </div>
 
-    <!-- Stemmen door gebruikers -->
     <div class="voting-card">
       <span style="font-size:14px; font-weight:600;">Staat deze er nog?</span>
-      <div style="display:flex; gap:10px;">
+      <div style="display:flex; gap:8px;">
         <button class="vote-btn vote-yes" onclick="registerVote(true)">👍 <span id="yes-count">0</span></button>
         <button class="vote-btn vote-no" onclick="registerVote(false)">👎 <span id="no-count">0</span></button>
       </div>
     </div>
+
+    <button id="admin-edit-cam-btn" class="btn-full" style="display:none; background:var(--warning); color:black;" onclick="openSingleCamEditor()">✏️ Bewerk Deze Flitspaal (Admin)</button>
   </div>
 
-  <!-- View: Lijst & Opties -->
   <div id="view-lijst" class="view-panel">
     <h2 style="margin-bottom:15px;">📋 Flitsers in de buurt</h2>
-    <div id="flitsers-list-container">Geen flitsers in de buurt.</div>
+    <div id="flitsers-list-container">Geen flitsers geladen.</div>
   </div>
 
   <div id="view-instellingen" class="view-panel">
@@ -235,16 +234,15 @@
       <option value="1000">1000 meter</option>
     </select>
 
-    <label style="font-size:13px; color:#8e8e93;">Alleen waarschuwen als ik te hard rijd:</label>
-    <select id="setting-speeding-only" class="form-input" onchange="saveSettings()">
-      <option value="false">Nee, altijd waarschuwen</option>
-      <option value="true">Ja, alleen bij snelheidsovertreding</option>
+    <label style="font-size:13px; color:#8e8e93;">Geluidssignaal:</label>
+    <select id="setting-audio-mode" class="form-input" onchange="saveSettings()">
+      <option value="all">Altijd spreken</option>
+      <option value="speeding">Alleen als ik te hard rijd</option>
     </select>
 
-    <button class="btn-full" style="margin-top:15px;" onclick="openAdminMenu()">🔑 Admin Log In</button>
+    <button class="btn-full" style="margin-top:15px;" onclick="openAdminMenu()">🔑 Open Admin Paneel</button>
   </div>
 
-  <!-- Bottom Navigation Tab Bar -->
   <div class="tab-bar">
     <div class="tab-icon" onclick="switchTab('instellingen')">⚙️</div>
     <div class="tab-links">
@@ -254,23 +252,19 @@
     <div class="tab-icon" onclick="switchTab('instellingen')">≡</div>
   </div>
 
-  <!-- MODALS -->
-
-  <!-- GPS Permission -->
   <div id="modal-gps-prompt" class="modal" style="display:flex;">
     <div class="modal-content">
       <div class="gps-icon-circle">
         <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
       </div>
-      <h2>Locatie Toestemming</h2>
+      <h2>DriveRadar Gestart</h2>
       <p style="color:#8e8e93; font-size:14px; margin-bottom:20px;">
-         DriveRadar heeft je GPS-locatie nodig om flitsers op te sporen en je snelheid weer te geven.
+        Klik hieronder om je GPS te verbinden en de kaart te openen.
       </p>
-      <button class="btn-full" onclick="requestGPSPermission()">📍 Start GPS & App</button>
+      <button class="btn-full" onclick="requestGPSPermission()">📍 GPS Inschakelen</button>
     </div>
   </div>
 
-  <!-- Type Selector -->
   <div id="modal-type" class="modal">
     <div class="modal-content">
       <h2>⚠️ Kies Meldingstype</h2>
@@ -284,7 +278,6 @@
     </div>
   </div>
 
-  <!-- Speed Selector -->
   <div id="modal-speed" class="modal">
     <div class="modal-content">
       <h2>⚡ Maximum Snelheid</h2>
@@ -293,7 +286,6 @@
     </div>
   </div>
 
-  <!-- Admin Hub -->
   <div id="modal-admin-hub" class="modal">
     <div class="modal-content">
       <h2>⚙️ Admin Controle Paneel</h2>
@@ -302,404 +294,11 @@
         <button class="btn-full" onclick="loginAdmin()">Inloggen</button>
       </div>
       <div id="admin-tools-section" style="display: none;">
-        <p style="color:var(--success); margin-bottom:12px; font-weight:bold;">✅ Ingelogd als Beheerder</p>
-        <button class="btn-full" onclick="toggleAdminClickMode()">📍 Losse Paal Platsen op Kaart</button>
-        <button class="btn-full" style="background:var(--warning); color:black;" onclick="startAreaSelectMode()">🔲 Teken Gebied/Area Selection</button>
-        <button class="btn-full" onclick="openImportExport()">📂 Data Importeren / Ophalen</button>
+        <p style="color:var(--success); margin-bottom:12px; font-weight:bold;">✅ Admin Modus Actief</p>
+        <button class="btn-full" onclick="toggleAdminClickMode()">📍 Losse Paal Plaatsten via Klik</button>
+        <button class="btn-full" style="background:var(--warning); color:black;" onclick="startAreaSelectMode()">🔲 Teken Zone (Area Speed Edit)</button>
+        <button class="btn-full" style="background:var(--success); color:black;" onclick="fetchNLFlitspalen()">🔄 Haal Alle Echte NL Flitspalen Op</button>
         <button class="btn-full btn-danger" onclick="clearAllData()">🗑️ Wis Alle Data</button>
         <button class="btn-full btn-secondary" onclick="logoutAdmin()">Uitloggen</button>
       </div>
-      <button class="btn-full btn-secondary" style="margin-top:8px;" onclick="closeModals()">Sluiten</button>
-    </div>
-  </div>
-
-  <!-- Admin Area Edit Speed Modal -->
-  <div id="modal-area-speed" class="modal">
-    <div class="modal-content">
-      <h2>🔲 Zone Snelheid Aanpassen</h2>
-      <p id="area-count-text" style="color:#8e8e93; font-size:13px; margin-bottom:15px;"></p>
-      <label style="font-size:13px; color:#8e8e93;">Nieuwe Snelheidslimiet voor dit gebied:</label>
-      <input type="number" id="area-new-speed" class="form-input" placeholder="bijv. 80" value="80">
-      <button class="btn-full" onclick="applyAreaSpeedChange()">Opslaan in Gebied</button>
-      <button class="btn-full btn-secondary" onclick="closeModals()">Annuleren</button>
-    </div>
-  </div>
-
-  <!-- Data Manager -->
-  <div id="modal-data" class="modal">
-    <div class="modal-content">
-      <h2>📂 Data Beheren</h2>
-      <button class="btn-full" style="background:var(--success); color:black; font-weight:bold; margin-bottom:12px;" onclick="fetchNLFlitspalen()">
-        🔄 Haal NL Flitspalen Automatisch Op
-      </button>
-      <button class="btn-full btn-secondary" onclick="closeModals()">Sluiten</button>
-    </div>
-  </div>
-
-  <script>
-    let map, userMarker, routingControl;
-    let userLat = 52.370216, userLng = 4.895168;
-    let currentSpeed = 0;
-    let roadLimit = 50;
-    
-    let audioEnabled = true;
-    let isDarkMode = true;
-    let isAdmin = false;
-    let adminClickMode = false;
-    let adminAreaMode = false;
-    
-    let areaStartLatLng = null;
-    let areaRectangle = null;
-    let selectedAreaCams = [];
-
-    let tempLat = null, tempLng = null;
-    let selectedType = '', selectedColor = '#007aff';
-    let selectedCamera = null;
-    let warnedFlitsers = new Set();
-
-    let settings = JSON.parse(localStorage.getItem('radarSettings')) || { warnDistance: 500, speedingOnly: false };
-    let cameraData = JSON.parse(localStorage.getItem('ultimateRadarData')) || [];
-
-    // Snelheidsknoppen vullen
-    const speeds = [30, 50, 60, 70, 80, 90, 100, 120, 130];
-    const speedGrid = document.getElementById('speed-options');
-    speeds.forEach(s => {
-      let d = document.createElement('div');
-      d.className = 'select-card';
-      d.innerText = s + ' km/u';
-      d.onclick = () => saveCamera(s);
-      speedGrid.appendChild(d);
-    });
-
-    function initMap() {
-      map = L.map('map', { zoomControl: false }).setView([userLat, userLng], 14);
-
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-        maxZoom: 20
-      }).addTo(map);
-
-      const userIcon = L.divIcon({
-        className: 'custom-user-icon',
-        html: `<div class="user-marker"><svg viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg></div>`,
-        iconSize: [36, 36],
-        iconAnchor: [18, 18]
-      });
-      userMarker = L.marker([userLat, userLng], { icon: userIcon }).addTo(map);
-
-      // Area Selection Drag Logic voor Admin
-      map.on('mousedown', function(e) {
-        if (isAdmin && adminAreaMode) {
-          areaStartLatLng = e.latlng;
-          if (areaRectangle) map.removeLayer(areaRectangle);
-          areaRectangle = L.rectangle([areaStartLatLng, areaStartLatLng], { color: "#ff9500", weight: 2 }).addTo(map);
-        }
-      });
-
-      map.on('mousemove', function(e) {
-        if (isAdmin && adminAreaMode && areaStartLatLng && areaRectangle) {
-          areaRectangle.setBounds(L.latLngBounds(areaStartLatLng, e.latlng));
-        }
-      });
-
-      map.on('mouseup', function(e) {
-        if (isAdmin && adminAreaMode && areaStartLatLng) {
-          const bounds = L.latLngBounds(areaStartLatLng, e.latlng);
-          selectedAreaCams = cameraData.filter(c => bounds.contains([c.lat, c.lng]));
-          
-          document.getElementById('area-count-text').innerText = `${selectedAreaCams.length} flitser(s) geselecteerd binnen dit gebied.`;
-          document.getElementById('modal-area-speed').style.display = 'flex';
-          
-          adminAreaMode = false;
-          areaStartLatLng = null;
-          document.getElementById('admin-banner').style.display = 'none';
-        }
-      });
-
-      map.on('click', function(e) {
-        if (isAdmin && adminClickMode) {
-          tempLat = e.latlng.lat;
-          tempLng = e.latlng.lng;
-          document.getElementById('modal-type').style.display = 'flex';
-        }
-      });
-
-      renderCameras();
-    }
-
-    function requestGPSPermission() {
-      if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition(
-          (pos) => {
-            document.getElementById('modal-gps-prompt').style.display = 'none';
-            userLat = pos.coords.latitude;
-            userLng = pos.coords.longitude;
-            map.setView([userLat, userLng], 16);
-            userMarker.setLatLng([userLat, userLng]);
-
-            navigator.geolocation.watchPosition(handleGPS, handleGPSError, { enableHighAccuracy: true });
-            playAudio("DriveRadar actief.");
-          },
-          () => alert("⚠️ Zorg dat GPS op je telefoon aan staat."),
-          { enableHighAccuracy: true }
-        );
-      }
-    }
-
-    function handleGPS(pos) {
-      userLat = pos.coords.latitude;
-      userLng = pos.coords.longitude;
-      currentSpeed = pos.coords.speed ? Math.round(pos.coords.speed * 3.6) : 0;
-      
-      const speedBox = document.getElementById('speed-display-box');
-      document.getElementById('speed-display').innerText = currentSpeed;
-      
-      // Snelheidsovertreding check
-      if (currentSpeed > roadLimit) {
-        speedBox.classList.add('speeding');
-      } else {
-        speedBox.classList.remove('speeding');
-      }
-
-      if (userMarker) userMarker.setLatLng([userLat, userLng]);
-      checkProximity(userLat, userLng);
-    }
-
-    function handleGPSError(err) { console.warn("GPS Fout:", err.message); }
-
-    function renderCameras() {
-      map.eachLayer((layer) => {
-        if (layer instanceof L.Marker && layer !== userMarker) map.removeLayer(layer);
-      });
-
-      const listContainer = document.getElementById('flitsers-list-container');
-      listContainer.innerHTML = '';
-
-      cameraData.forEach(cam => {
-        const netVotes = (cam.upvotes || 0) - (cam.downvotes || 0);
-        const isVerified = netVotes >= 2;
-
-        const camIcon = L.divIcon({
-          className: 'custom-cam-icon',
-          html: `
-            <div class="camera-marker" style="background:${cam.color || '#007aff'}">
-              <svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
-              ${isVerified ? '<span class="badge-votes">✓</span>' : ''}
-            </div>`,
-          iconSize: [32, 32],
-          iconAnchor: [16, 16]
-        });
-
-        const marker = L.marker([cam.lat, cam.lng], { icon: camIcon }).addTo(map);
-        marker.on('click', () => openBottomSheet(cam));
-
-        let item = document.createElement('div');
-        item.className = 'list-item';
-        item.innerHTML = `
-          <div>
-            <strong>${cam.type} ${isVerified ? '✅' : '⚠️'}</strong><br>
-            <small style="color:#8e8e93;">Score: +${netVotes} (${cam.location || 'Nederland'})</small>
-          </div>
-          <div class="speed-limit-badge" style="width:38px; height:38px; font-size:14px;">${cam.speed}</div>
-        `;
-        item.onclick = () => {
-          switchTab('kaart');
-          map.setView([cam.lat, cam.lng], 17);
-          openBottomSheet(cam);
-        };
-        listContainer.appendChild(item);
-      });
-    }
-
-    function checkProximity(lat, lng) {
-      cameraData.forEach(cam => {
-        let dist = getDistanceMeters(lat, lng, cam.lat, cam.lng);
-        let warnDist = parseInt(settings.warnDistance) || 500;
-
-        if (dist <= warnDist && !warnedFlitsers.has(cam.id)) {
-          // Bepaal snelheidslimiet van de weg op basis van nabije flitspaal
-          roadLimit = cam.speed;
-          document.getElementById('current-limit-display').innerText = roadLimit;
-
-          if (settings.speedingOnly === 'true' && currentSpeed <= cam.speed) {
-            return; // Sla geluid over als je niet te hard rijdt
-          }
-
-          warnedFlitsers.add(cam.id);
-          openBottomSheet(cam);
-          if (audioEnabled) playAudio(`Let op! ${cam.type} over ${Math.round(dist)} meter. Limiet ${cam.speed}`);
-        }
-      });
-    }
-
-    function registerVote(isUpvote) {
-      if (!selectedCamera) return;
-      
-      if (!selectedCamera.upvotes) selectedCamera.upvotes = 0;
-      if (!selectedCamera.downvotes) selectedCamera.downvotes = 0;
-
-      if (isUpvote) selectedCamera.upvotes++;
-      else selectedCamera.downvotes++;
-
-      saveData();
-      openBottomSheet(selectedCamera);
-      renderCameras();
-    }
-
-    function openBottomSheet(cam) {
-      selectedCamera = cam;
-      const netVotes = (cam.upvotes || 0) - (cam.downvotes || 0);
-
-      document.getElementById('sheet-type').innerText = cam.type;
-      document.getElementById('sheet-location').innerText = cam.location || 'Locatie onbekend';
-      document.getElementById('sheet-speed').innerText = cam.speed;
-      document.getElementById('yes-count').innerText = cam.upvotes || 0;
-      document.getElementById('no-count').innerText = cam.downvotes || 0;
-
-      const badge = document.getElementById('verification-badge');
-      if (netVotes >= 2) {
-        badge.className = "verification-status status-verified";
-        badge.innerText = `✅ Bevestigd door community (+${netVotes})`;
-      } else {
-        badge.className = "verification-status status-unverified";
-        badge.innerText = `⚠️ Nog niet geverifieerd (+${netVotes})`;
-      }
-
-      document.getElementById('bottom-sheet').style.display = 'flex';
-    }
-
-    // Area Speed Adjustment door Admin
-    function startAreaSelectMode() {
-      adminAreaMode = true;
-      document.getElementById('admin-banner').innerText = "🔲 Sleep/Teken een rechthoek op de kaart";
-      document.getElementById('admin-banner').style.display = "block";
-      closeModals();
-    }
-
-    function applyAreaSpeedChange() {
-      const newSpeed = parseInt(document.getElementById('area-new-speed').value);
-      if (!newSpeed) return;
-
-      selectedAreaCams.forEach(cam => {
-        cam.speed = newSpeed;
-      });
-
-      saveData();
-      renderCameras();
-      if (areaRectangle) map.removeLayer(areaRectangle);
-      alert(`✅ Snelheid aangepast naar ${newSpeed} km/u voor ${selectedAreaCams.length} flitser(s)!`);
-      closeModals();
-    }
-
-    function fetchNLFlitspalen() {
-      alert("⏳ Bezig met ophalen van alle NL flitspalen...");
-      const query = `[out:json];node["highway"="speed_camera"](50.75,3.35,53.55,7.25);out body;`;
-      fetch("https://overpass-api.de/api/interpreter?data=" + encodeURIComponent(query))
-        .then(res => res.json())
-        .then(data => {
-          data.elements.forEach((node, i) => {
-            let maxSpeed = node.tags && node.tags.maxspeed ? parseInt(node.tags.maxspeed) : 50;
-            cameraData.push({
-              id: node.id || (Date.now() + i),
-              type: "Vaste Paal",
-              color: "#007aff",
-              location: "Nederlandse Flitspaal",
-              lat: node.lat,
-              lng: node.lon,
-              speed: maxSpeed,
-              upvotes: 3,
-              downvotes: 0
-            });
-          });
-          saveData();
-          renderCameras();
-          alert("✅ Alle NL flitspalen ingeladen!");
-          closeModals();
-        });
-    }
-
-    function startMeldWorkflow() { tempLat = null; tempLng = null; document.getElementById('modal-type').style.display = 'flex'; }
-    function selectType(t, c) { selectedType = t; selectedColor = c; closeModals(); document.getElementById('modal-speed').style.display = 'flex'; }
-
-    function saveCamera(speed) {
-      closeModals();
-      cameraData.push({
-        id: Date.now(),
-        type: selectedType,
-        color: selectedColor,
-        location: "User Gemeld",
-        lat: tempLat ? tempLat : userLat,
-        lng: tempLng ? tempLng : userLng,
-        speed: speed,
-        upvotes: 1,
-        downvotes: 0
-      });
-      saveData();
-      renderCameras();
-    }
-
-    function openAdminMenu() { document.getElementById('modal-admin-hub').style.display = 'flex'; }
-    function loginAdmin() {
-      if (document.getElementById('admin-pass').value === '1234') {
-        isAdmin = true;
-        document.getElementById('admin-login-section').style.display = 'none';
-        document.getElementById('admin-tools-section').style.display = 'block';
-      } else { alert("Verkeerd wachtwoord! (1234)"); }
-    }
-    function logoutAdmin() { isAdmin = false; closeModals(); }
-    function toggleAdminClickMode() { adminClickMode = !adminClickMode; closeModals(); }
-
-    function saveData() { localStorage.setItem('ultimateRadarData', JSON.stringify(cameraData)); }
-    function saveSettings() {
-      settings.warnDistance = document.getElementById('setting-distance').value;
-      settings.speedingOnly = document.getElementById('setting-speeding-only').value;
-      localStorage.setItem('radarSettings', JSON.stringify(settings));
-    }
-
-    function toggleTheme() {
-      isDarkMode = !isDarkMode;
-      document.body.classList.toggle('light-mode', !isDarkMode);
-      document.getElementById('theme-btn').innerText = isDarkMode ? '🌙' : '☀️';
-    }
-
-    function toggleAudio() {
-      audioEnabled = !audioEnabled;
-      document.getElementById('audio-toggle-btn').innerText = audioEnabled ? '🔊' : '🔇';
-    }
-
-    function playAudio(text) {
-      if (audioEnabled && 'speechSynthesis' in window) {
-        const msg = new SpeechSynthesisUtterance(text);
-        msg.lang = 'nl-NL';
-        window.speechSynthesis.speak(msg);
-      }
-    }
-
-    function closeBottomSheet() { document.getElementById('bottom-sheet').style.display = 'none'; }
-    function closeModals() { document.querySelectorAll('.modal').forEach(m => { if(m.id !== 'modal-gps-prompt') m.style.display = 'none'; }); }
-
-    function switchTab(tab) {
-      document.querySelectorAll('.view-panel').forEach(p => p.style.display = 'none');
-      document.querySelectorAll('.tab-link').forEach(l => l.classList.remove('active'));
-
-      if (tab === 'kaart') {
-        document.getElementById('tab-btn-kaart').classList.add('active');
-      } else if (tab === 'lijst') {
-        document.getElementById('view-lijst').style.display = 'block';
-        document.getElementById('tab-btn-lijst').classList.add('active');
-      } else if (tab === 'instellingen') {
-        document.getElementById('view-instellingen').style.display = 'block';
-      }
-    }
-
-    function getDistanceMeters(lat1, lon1, lat2, lon2) {
-      const R = 6371e3;
-      const φ1 = lat1 * Math.PI/180, φ2 = lat2 * Math.PI/180;
-      const Δφ = (lat2-lat1) * Math.PI/180, Δλ = (lon2-lon1) * Math.PI/180;
-      const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ/2) * Math.sin(Δλ/2);
-      return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    }
-
-    window.onload = initMap;
-  </script>
-</body>
-</html>
+      <button class="btn-full btn-secondary"
